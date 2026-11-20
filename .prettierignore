@@ -1,0 +1,8 @@
+node_modules
+.next
+package-lock.json
+.env*
+AGENTS.md
+artifacts
+public
+supabase

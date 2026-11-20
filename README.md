@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Shelf Studio
 
-## Getting Started
+Product photography and copy, organised in one workspace.
 
-First, run the development server:
+Shelf Studio helps small sellers turn a product photo and verified details into a new visual setting, a product description and a social caption. Original photos, generated assets and edited copy remain attached to the project.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Three scene directions and square, portrait or landscape image formats.
+- Private account projects alongside browser-only drafts.
+- Original and generated image comparison.
+- Editable product descriptions and social captions, with asset downloads.
+- Saved generation history with dates, status and pagination.
+- Responsive layouts for desktop, tablet and mobile.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Layer             | Technology                                          |
+| ----------------- | --------------------------------------------------- |
+| Application       | Next.js 16, React 19, TypeScript                    |
+| Accounts and data | Supabase Auth, PostgreSQL, private Supabase Storage |
+| Product copy      | OpenAI Responses API with structured output         |
+| Image editing     | Replicate FLUX Kontext Pro                          |
+| Styling           | CSS, DM Sans, Instrument Serif, Lucide icons        |
+| Hosting           | Vercel                                              |
 
-## Learn More
+## Data and usage controls
 
-To learn more about Next.js, take a look at the following resources:
+Account projects and image folders enforce ownership independently. AI requests require a confirmed account and reserve usage in PostgreSQL before contacting either provider. The quota is three attempts per account and 20 across the studio per UTC day. Duplicate request keys reuse an existing attempt, and paid requests are not automatically retried.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Each generation uses a snapshot of the saved brief. Its original photo and result remain available after later project edits. Device drafts stay in the browser until explicitly saved to an account. Product facts are sent to OpenAI and source photos to Replicate only when generation is requested.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Generated product details and claims require review before publication. This is a portfolio application with controlled AI usage; it does not process payments.
 
-## Deploy on Vercel
+## Project structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `src/app` — account screens and authenticated API routes.
+- `src/components` — product workspace, asset editing and history.
+- `src/lib` — project storage, provider clients and usage controls.
+- `supabase` — database migrations and ownership policies.
+- `tests` — isolated storage and generation contract tests.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Validation
+
+| Command                | Purpose                                          |
+| ---------------------- | ------------------------------------------------ |
+| `npm test`             | Storage, ownership, generation and history tests |
+| `npm run lint`         | ESLint checks                                    |
+| `npm run format:check` | Source formatting                                |
+| `npm run build`        | Production build                                 |
+
+Tests use mocked provider responses and do not spend API credits. Deployment configuration and operational limits are documented in [Deployment](docs/deployment.md).
+
+## Credits
+
+Reference scene photography: Unsplash. Reference images are labelled in the interface and are separate from generated results.
